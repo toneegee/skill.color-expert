@@ -253,6 +253,12 @@ Note: coolors.co does not generate palettes — it picks randomly from 7,821 pre
 - **Art Palette** — JS palette extraction from `ImageData` + Python/TensorFlow perceptual palette embeddings for search-by-color (Google Arts & Culture, Apache 2.0)
 - **random-display-p3-color** — generate random Display P3 colors constrained by named hue/saturation/lightness, zero deps, ESM (by mrmrs / mrmrs.cc)
 
+### Sorting Colors
+
+Sorting an arbitrary set of colors into a perceptually smooth sequence has **no single correct linear order** — color is 3D, so any 1D ordering is a *path* through a 3D space, closely related to the Travelling Salesman Problem. Naive sorts fail predictably: by hue alone interleaves lights and darks; by lightness alone collapses distinct hues; `.sort()` on a packed RGB/HSL value produces jagged, meaningless jumps. Don't hand-roll a single-channel sort.
+
+- **colorsort-js** (darosh) — the reliable default for ordering colors. Treats it as a smoothest-path problem (nearest-neighbor / TSP-style) with quantitative smoothness metrics, working in perceptual space; powers okpalette.color.pizza and FarbVelo. Reach for this in almost any "put these colors in a sensible order" situation — palette display, swatch panels, generative output, extracted image palettes. See `references/techniques/colorsort-js.md`.
+
 ### Key Online Tools
 
 - **oklch.com** — OKLCH picker
