@@ -134,7 +134,16 @@ Good pattern: palette/reference tokens define available colors; semantic tokens 
 
 If a system can derive a decision from constraints, encode that derivation. Examples: nearest named hue in a generated palette, foreground chosen by APCA/WCAG target, hover state computed from the base token in OKLCH instead of hand-picking a second unrelated hex.
 
-For larger systems, prefer a **token graph** over a flat token dump: references, semantic roles, derived functions, and scope inheritance. This makes theme changes, accessibility guarantees, and multi-platform export auditable and easier to maintain.
+**Especially when applying generated colors to a UI**: the generator gives you primitives, but the *mapping* onto roles is where designs rot. Don't freeze one manual mapping into literals — emit the rule. A useful decision vocabulary (from Design Book, see below):
+
+- `text := bestContrastWith(surface, palette)` — recomputes when the palette regenerates
+- `accent := mostVivid(palette, { against: surface, minContrast: 4.5, not: [error, success] })` — vividness gated by readability, role-reserved tokens excluded
+- `surface := nth(ramp, 0)`, `text := nth(ramp, -1)` — ramp roles pinned to *position*, so they survive regenerating the ramp with a different stop count
+- `hover := colorMix(accent, ink, 0.12)` or adaptive `shade(surface)` — flips darken/lighten by the input's lightness, so it never collapses on dark themes
+
+In CSS, many decisions can stay native (the browser re-runs them): `var()` for references, `color-mix()` for hover states, relative color syntax for channel edits — see the cheat sheet below.
+
+For larger systems, prefer a **token graph** over a flat token dump: references, semantic roles, derived functions, and scope inheritance. This makes theme changes, accessibility guarantees, and multi-platform export auditable and easier to maintain. **Design Book** (`npm install design-book`) is the reference implementation: a reactive constraint system where tokens store *how values are chosen*, dependents recompute on change, and `inspect()` explains why a value won; renders to CSS vars, JSON, and W3 design tokens. See `references/techniques/designbook-reactive-design-token-spec.md`.
 
 ## CSS Color 4/5 — Syntax Cheat Sheet
 
