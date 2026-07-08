@@ -52,6 +52,7 @@ CIE's standard distance metrics (ΔE*uv, CIE94, CIEDE2000) did **not** give sati
 
 ## Connection to Other References
 
+- **[CuspHanger](cusphanger-gamut-triangle-palettes.md)** — a faithful implementation of this exact model re-expressed in OKLCH (instead of CIELUV), targeting sRGB and Display-P3, with a RampenSau-compatible API.
 - **[Cubehelix](cubehelix-color-scheme.md)** — same goal (monotonic-lightness ordered colormaps) via a helix in RGB; Wijffelaars instead builds Bézier curves in perceptual CIELUV with intuitive knobs.
 - **[Gao — Palette Generation Review](../contemporary/gao-color-palette-generation-review.md)** — surveys the broader image-derived palette field this method predates.
 - **[HSLuv](hsluv-better-than-hsl.md)** — also normalizes CIELUV chroma per hue/lightness; shares the "HSL is non-uniform, fix it in CIELUV" premise.
